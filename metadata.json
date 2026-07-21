@@ -1,0 +1,6 @@
+{
+  "name": "Nox",
+  "description": "Futuristic gaming and app store platform for direct APK browsing, downloads, and admin app management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
