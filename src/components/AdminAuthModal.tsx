@@ -34,21 +34,17 @@ export const AdminAuthModal: React.FC<AdminAuthModalProps> = ({
       }
 
       const cleanEmail = googleUser.email.trim().toLowerCase();
+      const isAdmin = cleanEmail === ADMIN_EMAIL.toLowerCase();
 
-      if (cleanEmail !== ADMIN_EMAIL.toLowerCase()) {
-        setErrorMsg(`Access Denied: The account "${cleanEmail}" is not authorized.`);
-        return;
-      }
-
-      const adminSession: UserSession = {
+      const userSession: UserSession = {
         email: googleUser.email,
         name: googleUser.name,
         avatar: googleUser.avatar,
-        isAdmin: true,
+        isAdmin: isAdmin,
         loggedInAt: new Date().toISOString()
       };
 
-      onLoginSuccess(adminSession);
+      onLoginSuccess(userSession);
       onClose();
     } catch (err: any) {
       setLoading(false);
@@ -86,10 +82,10 @@ export const AdminAuthModal: React.FC<AdminAuthModalProps> = ({
               <Lock className="w-6 h-6" />
             </div>
             <h3 className="text-xl font-black text-slate-100 tracking-tight">
-              Google Account Sign In
+              Sign In with Google
             </h3>
             <p className="text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
-              Click below to sign in directly with your Google Account.
+              Sign in with your Google account. Admin privileges are granted to <span className="text-cyan-300 font-mono font-bold">obyda.cmch@gmail.com</span>.
             </p>
           </div>
 

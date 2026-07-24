@@ -44,20 +44,36 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
 
-  const categories: ApkCategory[] = [
-    'All',
-    'Games',
-    'Cyber Tools',
-    'Utilities',
-    'Emulators',
-    'Media & Video',
-    'Productivity'
-  ];
+  const netlifyDomain = typeof window !== 'undefined'
+    ? (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || !window.location.hostname
+        ? 'nox-apk-store.netlify.app'
+        : window.location.hostname)
+    : 'nox-apk-store.netlify.app';
 
   return (
     <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-cyan-900/30 text-slate-100 transition-all">
       {/* Top Banner / Pulse Line */}
       <div className="h-0.5 w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 animate-pulse" />
+
+      {/* Netlify Domain Notification Strip when NOT signed in */}
+      {!userSession && (
+        <div className="bg-slate-900/90 border-b border-cyan-500/20 px-4 py-1.5 text-center text-[11px] font-mono text-cyan-300 flex items-center justify-center gap-2 flex-wrap">
+          <span className="flex items-center gap-1.5 font-bold text-slate-300">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            Netlify App Domain:
+          </span>
+          <a
+            href={netlifyDomain.startsWith('http') ? netlifyDomain : `https://${netlifyDomain}`}
+            target="_blank"
+            rel="noreferrer"
+            className="bg-slate-950 px-2.5 py-0.5 rounded-full border border-cyan-500/30 text-cyan-300 hover:text-cyan-200 hover:border-cyan-400 font-bold tracking-tight transition-colors flex items-center gap-1"
+          >
+            <span>{netlifyDomain}</span>
+            <Sparkles className="w-3 h-3 text-cyan-400" />
+          </a>
+          <span className="text-slate-500 hidden sm:inline">• Sign in to Google Account</span>
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20 gap-4">
@@ -156,27 +172,47 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
             )}
 
-            {/* Admin User Status or Sign In Button */}
+            {/* User Status or Sign In Button */}
             {userSession ? (
-              <div className="flex items-center gap-2">
-                <div className="hidden sm:flex flex-col text-right">
-                  <span className="text-xs font-bold text-cyan-300">
-                    {userSession.name}
-                  </span>
-                  <span className="text-[10px] text-slate-400 font-mono truncate max-w-[140px]">
-                    {userSession.email}
-                  </span>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <img
+                    src={userSession.avatar}
+                    alt={userSession.name}
+                    className="w-8 h-8 rounded-full border border-cyan-500/40 object-cover"
+                  />
+                  <div className="hidden sm:flex flex-col text-right">
+                    <div className="flex items-center gap-1.5 justify-end">
+                      <span className="text-xs font-bold text-slate-100">
+                        {userSession.name}
+                      </span>
+                      {userSession.isAdmin ? (
+                        <span className="text-[9px] font-extrabold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-mono">
+                          ADMIN
+                        </span>
+                      ) : (
+                        <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 font-mono">
+                          USER
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-[10px] text-slate-400 font-mono truncate max-w-[140px]">
+                      {userSession.email}
+                    </span>
+                  </div>
                 </div>
 
                 <div className="flex items-center gap-1.5">
-                  <button
-                    onClick={() => { setActiveView('dashboard'); onOpenDashboard(); }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-950/80 hover:bg-indigo-900/90 text-indigo-300 border border-indigo-500/40 rounded-xl text-xs font-semibold shadow-md transition-all"
-                    title="Open Admin Control Center"
-                  >
-                    <LayoutDashboard className="w-3.5 h-3.5" />
-                    <span className="hidden sm:inline">Console</span>
-                  </button>
+                  {userSession.isAdmin && (
+                    <button
+                      onClick={() => { setActiveView('dashboard'); onOpenDashboard(); }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-950/80 hover:bg-indigo-900/90 text-indigo-300 border border-indigo-500/40 rounded-xl text-xs font-semibold shadow-md transition-all"
+                      title="Open Admin Control Center"
+                    >
+                      <LayoutDashboard className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">Console</span>
+                    </button>
+                  )}
 
                   <button
                     onClick={onSignOut}

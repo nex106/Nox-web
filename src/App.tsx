@@ -38,7 +38,7 @@ export default function App() {
     setAppsList(loadedApps);
 
     const savedUser = getSavedSession();
-    if (savedUser && savedUser.isAdmin) {
+    if (savedUser) {
       setUserSession(savedUser);
     }
   }, []);
@@ -51,7 +51,11 @@ export default function App() {
   const handleLoginSuccess = (session: UserSession) => {
     setUserSession(session);
     saveSession(session);
-    setActiveView('dashboard');
+    if (session.isAdmin) {
+      setActiveView('dashboard');
+    } else {
+      setActiveView('store');
+    }
   };
 
   const handleSignOut = () => {
@@ -243,20 +247,35 @@ export default function App() {
               onUpdateApp={handleUpdateApp}
             />
           ) : (
-            /* Fallback if user navigates to dashboard without login */
+            /* Fallback if user navigates to dashboard without admin privileges */
             <div className="max-w-md mx-auto my-20 p-8 bg-slate-900 border border-slate-800 rounded-2xl text-center space-y-4">
+              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mx-auto text-xl font-bold">
+                🔒
+              </div>
               <h3 className="text-lg font-bold text-slate-100">
-                Authentication Required
+                {userSession ? 'Admin Access Restricted' : 'Sign In Required'}
               </h3>
-              <p className="text-xs text-slate-400">
-                Please sign in with an authorized account to access the dashboard.
+              <p className="text-xs text-slate-400 leading-relaxed">
+                {userSession
+                  ? `Your account (${userSession.email}) does not have admin permissions. Only obyda.cmch@gmail.com can manage app packages.`
+                  : 'Please sign in with Google to access application features or admin tools.'}
               </p>
-              <button
-                onClick={handleOpenAuthModal}
-                className="px-6 py-2.5 bg-cyan-500 text-slate-950 font-extrabold text-xs rounded-xl shadow-lg"
-              >
-                Sign In
-              </button>
+              <div className="pt-2 flex justify-center gap-3">
+                <button
+                  onClick={() => setActiveView('store')}
+                  className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-xl"
+                >
+                  Return to Store
+                </button>
+                {!userSession && (
+                  <button
+                    onClick={handleOpenAuthModal}
+                    className="px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold text-xs rounded-xl shadow-lg"
+                  >
+                    Sign In
+                  </button>
+                )}
+              </div>
             </div>
           )
         )}
