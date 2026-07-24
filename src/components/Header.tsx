@@ -44,36 +44,10 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
 
-  const netlifyDomain = typeof window !== 'undefined'
-    ? (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || !window.location.hostname
-        ? 'nox-apk-store.netlify.app'
-        : window.location.hostname)
-    : 'nox-apk-store.netlify.app';
-
   return (
     <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-cyan-900/30 text-slate-100 transition-all">
       {/* Top Banner / Pulse Line */}
       <div className="h-0.5 w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 animate-pulse" />
-
-      {/* Netlify Domain Notification Strip when NOT signed in */}
-      {!userSession && (
-        <div className="bg-slate-900/90 border-b border-cyan-500/20 px-4 py-1.5 text-center text-[11px] font-mono text-cyan-300 flex items-center justify-center gap-2 flex-wrap">
-          <span className="flex items-center gap-1.5 font-bold text-slate-300">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            Netlify App Domain:
-          </span>
-          <a
-            href={netlifyDomain.startsWith('http') ? netlifyDomain : `https://${netlifyDomain}`}
-            target="_blank"
-            rel="noreferrer"
-            className="bg-slate-950 px-2.5 py-0.5 rounded-full border border-cyan-500/30 text-cyan-300 hover:text-cyan-200 hover:border-cyan-400 font-bold tracking-tight transition-colors flex items-center gap-1"
-          >
-            <span>{netlifyDomain}</span>
-            <Sparkles className="w-3 h-3 text-cyan-400" />
-          </a>
-          <span className="text-slate-500 hidden sm:inline">• Sign in to Google Account</span>
-        </div>
-      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20 gap-4">

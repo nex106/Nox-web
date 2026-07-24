@@ -257,7 +257,7 @@ export default function App() {
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed">
                 {userSession
-                  ? `Your account (${userSession.email}) does not have admin permissions. Only obyda.cmch@gmail.com can manage app packages.`
+                  ? `Your account (${userSession.email}) does not have administrative permissions.`
                   : 'Please sign in with Google to access application features or admin tools.'}
               </p>
               <div className="pt-2 flex justify-center gap-3">

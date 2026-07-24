@@ -85,7 +85,7 @@ export const AdminAuthModal: React.FC<AdminAuthModalProps> = ({
               Sign In with Google
             </h3>
             <p className="text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
-              Sign in with your Google account. Admin privileges are granted to <span className="text-cyan-300 font-mono font-bold">obyda.cmch@gmail.com</span>.
+              Sign in with your Google account to access your account features and control options.
             </p>
           </div>
 
