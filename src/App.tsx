@@ -267,14 +267,6 @@ export default function App() {
                 >
                   Return to Store
                 </button>
-                {!userSession && (
-                  <button
-                    onClick={handleOpenAuthModal}
-                    className="px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold text-xs rounded-xl shadow-lg"
-                  >
-                    Sign In
-                  </button>
-                )}
               </div>
             </div>
           )

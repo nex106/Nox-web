@@ -146,8 +146,8 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
             )}
 
-            {/* User Status or Sign In Button */}
-            {userSession ? (
+            {/* User Status */}
+            {userSession && (
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-2">
                   <img
@@ -197,19 +197,6 @@ export const Header: React.FC<HeaderProps> = ({
                   </button>
                 </div>
               </div>
-            ) : (
-              <button
-                onClick={onOpenAuthModal}
-                className="relative group overflow-hidden rounded-xl p-[1px] focus:outline-none focus:ring-2 focus:ring-cyan-400"
-              >
-                <span className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 rounded-xl group-hover:opacity-100 transition-opacity opacity-80 animate-pulse" />
-                <div className="relative flex items-center gap-2 px-4 py-2 rounded-[11px] bg-slate-950 group-hover:bg-slate-900 transition-colors">
-                  <User className="w-4 h-4 text-cyan-400" />
-                  <span className="text-xs font-bold tracking-wide text-slate-100">
-                    Sign In
-                  </span>
-                </div>
-              </button>
             )}
 
           </div>
